@@ -112,6 +112,7 @@ app.get('/glucose', function(req, res){
     console.log("pageNumber: " + req.body.pageNumber);
     Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
       if (err) throw error;
+      console.log("the  post is: " + docs[0]);
       res.send(docs[0])
     })
 })
