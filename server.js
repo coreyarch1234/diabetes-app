@@ -71,7 +71,7 @@ app.get('/contact', function(req, res){
         }
     ]
     for (var i=0; i < contactArray.length; i++){
-        allNumbers.push(contactArray[i].number);
+        // allNumbers.push(contactArray[i].number);
         Contact.create(contactArray[i], function(err, contact){
             if (err){
                 console.log(err);
