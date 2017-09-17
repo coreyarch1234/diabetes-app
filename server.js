@@ -84,22 +84,22 @@ app.get('/contact', function(req, res){
 //Post contact info from iOS and save it to db
 app.post('/contact', function(req, res){
     console.log("req:" + req);
-    // var name = req.name;
-    // var number = req.number;
-    // console.log("name: " + name);
-    // console.log("number: " + number);
-    // var contactInfo = {
-    //     name: name,
-    //     number: number
-    // }
-    // Contact.create(contactInfo, function(err, contact){
-    //     if (err){
-    //         console.log(err);
-    //     }else{
-    //         console.log("contact saved successfully");
-    //         res.send(contact);
-    //     }
-    // });
+    var name = "Corey";
+    var number = "16462670978";
+    console.log("name: " + name);
+    console.log("number: " + number);
+    var contactInfo = {
+        name: name,
+        number: number
+    }
+    Contact.create(contactInfo, function(err, contact){
+        if (err){
+            console.log(err);
+        }else{
+            console.log("contact saved successfully");
+            res.send(contact);
+        }
+    });
 });
 
 
