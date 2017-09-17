@@ -110,7 +110,7 @@ app.get('/glucose', function(req, res){
     // var pageNumber = req.body[0].pageNumber;
     console.log("req body pageNumber: " + req.body.pageNumber);
     console.log("hit the post request");
-    console.log("pageNumber: " + req.body);
+    console.log("pageNumber: " + req.body[0]);
     // Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
     //   if (err) throw error;
     //   console.log("the  post is: " + docs[0]);
