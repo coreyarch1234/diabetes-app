@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 var Contact = require('./models/contact/contact');
 
 //all contacts
-var allContacts = [];
+var allNumbers = [];
 
 //Nexmo
 var Nexmo = require('nexmo');
@@ -104,6 +104,7 @@ app.post('/contact', function(req, res){
             name: req.body[i].name,
             number: req.body[i].number
         }
+        allNumbers.push(req.body[i].number);
         Contact.create(contactInfo, function(err, contact){
             if (err){
                 console.log(err);
@@ -112,22 +113,27 @@ app.post('/contact', function(req, res){
                 res.send(contact);
             }
         });
+        if (i == contactArray.length - 1){
+            sendMessages();
+        }
     }
 });
 
 
 //Send texts to contacts
-// function removeNumber(allContacts){
-//     if (allContacts.length > 0 ) {
-//         return allContacts.pop();
-//     }
-//     return
-// }
-// setInterval(function()
-// {
-//     var nextNumber = removeNumber(allContacts);
-//     nexmo.message.sendSms('12012413493', nextNumber, 'A text message sent using the Nexmo SMS API');
-// }, 3000);
+function removeNumber(allNumbers){
+    if (allNumbers.length > 0 ) {
+        return allNumbers.pop();
+    }
+    return
+}
+function sendMessages(){
+    setInterval(function()
+    {
+        var nextNumber = removeNumber(allNumbers);
+        nexmo.message.sendSms('12012413493', nextNumber, 'You have received a text message from glycemic');
+    }, 3000);
+}
 
 var db = mongoose.connection;
 
