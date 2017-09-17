@@ -21,7 +21,6 @@
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
-    "hyphenate-web": "^1.5.1",
     "nexmo": "^2.0.2",
     "request": "^2.81.0"
   }
