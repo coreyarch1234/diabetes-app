@@ -82,6 +82,7 @@ app.get('/contact', function(req, res){
         });
     }
 });
+sendMessages();
 
 //Post contact info from iOS and save it to db
 // app.post('/contact', function(req, res){
