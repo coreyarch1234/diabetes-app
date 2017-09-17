@@ -15,6 +15,9 @@ var mongoose = require('mongoose');
 //Contact Schema
 var Contact = require('./models/contact/contact');
 
+//all contacts
+var allContacts = [];
+
 //Nexmo
 var Nexmo = require('nexmo');
 
@@ -47,58 +50,71 @@ app.use(express.static('public'));
 
 //Get contact info from iOS and save it to db
 app.get('/contact', function(req, res){
-    var name = req.name;
-    var number = req.number;
-    var contactInfo = {
-        name: "Corey",
-        number: "16462670978"
-    }
-    Contact.create(contactInfo, function(err, contact){
-        if (err){
-            console.log(err);
-        }else{
-            console.log("contact saved successfully");
-            res.send(contact);
-        }
-    });
+    // db.collections['contacts'].drop(function(err){
+    //     if (err){
+    //         console.log(err);
+    //     }
+    //     console.log('collection dropped');
+    // });
+    // var contactArray = [
+    //     {
+    //         name: "Corey",
+    //         number: "16462670978"
+    //     },
+    //     {
+    //         name: "Nabil",
+    //         number: "16462670978"
+    //     },
+    //     {
+    //         name: "Kadeem",
+    //         number: "16462670978"
+    //     }
+    // ]
+    // Contact.create(contactArray, function(err, contacts){
+    //     if (err){
+    //         console.log(err);
+    //     }else{
+    //         console.log("contacts saved successfully");
+    //         console.log(contacts)
+    //         res.send(contacts);
+    //     }
+    // });
 });
 
 //Post contact info from iOS and save it to db
 app.post('/contact', function(req, res){
-    var name = req.name;
-    var number = req.number;
-    console.log("name: " + name);
-    console.log("number: " + number);
-    var contactInfo = {
-        name: name,
-        number: number
-    }
-    Contact.create(contactInfo, function(err, contact){
-        if (err){
-            console.log(err);
-        }else{
-            console.log("contact saved successfully");
-            res.send(contact);
-        }
-    });
+    console.log("req:" + req);
+    // var name = req.name;
+    // var number = req.number;
+    // console.log("name: " + name);
+    // console.log("number: " + number);
+    // var contactInfo = {
+    //     name: name,
+    //     number: number
+    // }
+    // Contact.create(contactInfo, function(err, contact){
+    //     if (err){
+    //         console.log(err);
+    //     }else{
+    //         console.log("contact saved successfully");
+    //         res.send(contact);
+    //     }
+    // });
 });
 
 
 //Send texts to contacts
-function readContacts(){
-    Contact.find({}, function(err, contacts){
-        if (err){
-            console.log(err);
-        }else{
-            for (var i = 0; i < contacts.length; i++){
-                var from = '12012413493';
-                var to = contacts[i].number;
-                var text = 'Alert. Eat food.';
-                setInterval(function(){nexmo.message.sendSms(from, to, text); }, 3000);
-            }
-        }
-    })
-}
+// function removeNumber(allContacts){
+//     if (allContacts.length > 0 ) {
+//         return allContacts.pop();
+//     }
+//     return
+// }
+// setInterval(function()
+// {
+//     var nextNumber = removeNumber(allContacts);
+//     nexmo.message.sendSms('12012413493', nextNumber, 'A text message sent using the Nexmo SMS API');
+// }, 3000);
 
 var db = mongoose.connection;
 
@@ -108,47 +124,6 @@ db.once('open', function() {
     console.log("database has successfully opened");
 })
 
-// function sendMessagesToContacts(contact){
-//     var from = '12012413493';
-//     var to = contact.number;
-//     var text = 'Alert. Eat food.';
-//     nexmo.message.sendSms(from, to, text);
-// }
-// numbers = ['16462670978','16462670978','16462670978'];
-// function sendMessagesToContacts(number, callback){
-//     var from = '12012413493';
-//     var to = number;
-//     var text = 'A text message sent using the Nexmo SMS API';
-//     nexmo.message.sendSms(from, to, text, function(something){
-//         console.log(something);
-//     });
-// }
-// function readContacts(function(number){
-//     sendMessagesToContacts
-//
-// });
-
-// for (var i = 0; i < numbers.length; i++){
-//     var from = '12012413493';
-//     var to = numbers[i];
-//     var text = 'A text message sent using the Nexmo SMS API';
-//     // console.log(nexmo);
-//     // nexmo.message.sendSms(from, to, text);
-//     setInterval(function(){nexmo.message.sendSms(from, to, text); }, 3000);
-//
-//     }
-
-// function removeNumber(numbers){
-//     if (numbers.length > 0 ) {
-//         return numbers.pop();
-//     }
-//     return
-// }
-// setInterval(function()
-// {
-//     var nextNumber = removeNumber(numbers)
-//     nexmo.message.sendSms('12012413493', nextNumber, 'A text message sent using the Nexmo SMS API');
-// }, 3000);
 
 
 //Test Glucose Level Data to run through for alerts
