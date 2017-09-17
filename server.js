@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 //requests
 var request = require('request');
 
+//Contact Schema
+var Contact = require('./models/contact/contact');
+
 //Nexmo
 var Nexmo = require('nexmo');
 
