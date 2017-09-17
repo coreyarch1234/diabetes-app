@@ -82,8 +82,6 @@ app.get('/contact', function(req, res){
         });
     }
 });
-sendMessages();
-
 //Post contact info from iOS and save it to db
 // app.post('/contact', function(req, res){
 //     db.collections['contacts'].drop(function(err){
@@ -150,4 +148,6 @@ db.once('open', function() {
 app.listen(process.env.PORT || port, function() {
     console.log("app is running");
     console.log("env port" + process.env.PORT);
+    // sendMessages();
+    nexmo.message.sendSms('12012413493', '16462670978', 'You have received a text message from glycemic');
 })
