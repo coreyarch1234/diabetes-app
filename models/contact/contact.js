@@ -5,8 +5,7 @@ var ContactSchema = new Schema({
   createdAt            : { type: Date, default: Date() },
   updatedAt            : { type: Date, default: Date() },
   name                 : { type: String, unique: false, required: true },
-  number               : { type: String, unique: true, required: true },
-  relationship         : { type: String, unique: false, required: true },
+  number               : { type: String, unique: true, required: true }
 });
 
-module.exports = mongoose.model('Contacrt', ContactSchema);
+module.exports = mongoose.model('Contact', ContactSchema);
