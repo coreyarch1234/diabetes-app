@@ -105,7 +105,7 @@ function iterateGlucoseLevels(){
 //       res.send(docs[0])
 //     })
 // })
-app.get('/glucose', function(req, res){
+app.post('/glucose', function(req, res){
     var pageSize = 1;
     var pageNumber = req.body.pageNumber;
     console.log("req body pageNumber: " + req.body.pageNumber);
