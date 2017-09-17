@@ -14,6 +14,9 @@ var mongoose = require('mongoose');
 
 //Contact Schema
 var Contact = require('./models/contact/contact');
+var Glucose = require('./models/glucose/glucose');
+
+var glucoseArray = require('./glucose');
 
 //all contacts
 var allNumbers = [];
@@ -48,14 +51,61 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
+//Save glucose data to DB
+function saveGlucoseLevels(glucoseInfo, callback){
+    Glucose.findOne({_id: glucoseInfo._id}, function(err, glucose){
+        if (glucose == null){
+            Glucose.create(glucoseInfo, function(err, glucose){
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback();
+                }
+            })
+        }else{
+            console.log("we found a duplicate link and we will stop creating");
+        }
+})
+};
+
+function resolveGlucoseLevels() {
+    if (glucoseArray.length > 0 ) {
+        return glucoseArray.pop();
+    }
+    return undefined;
+}
+
+
+function iterateGlucoseLevels(){
+    var currentGlucoseLevel = resolveGlucoseLevels()
+    if (currentGlucoseLevel != undefined){
+        var glucoseInfo = {
+            _id: currentGlucoseLevel._id,
+            calculated_value: currentGlucoseLevel.calculated_value,
+            timestamp: currentGlucoseLevel.timestamp
+        }
+        console.log(glucoseInfo);
+        saveGlucoseLevels(glucoseInfo, function(){
+            iterateGlucoseLevels();
+        });
+    }else{
+        console.log("done saving");
+        return
+    }
+}
+
+app.get('/glucose', function(req, res){
+    Glucose.find({}, function(err, glucoses){
+        if (err){
+            console.log(err);
+        }else{
+            res.send(glucoses);
+        }
+    })
+})
+
 //Get contact info from iOS and save it to db
 app.get('/contact', function(req, res){
-    // db.collections['contacts'].drop(function(err){
-    //     if (err){
-    //         console.log(err);
-    //     }
-    //     console.log('collection dropped');
-    // });
     var contactArray = [
         {
             name: "Corey",
@@ -126,21 +176,6 @@ app.post('/contact', function(req, res){
     })
 });
 
-//Send texts to contacts
-function removeNumber(allNumbers){
-    if (allNumbers.length > 0 ) {
-        return allNumbers.pop();
-    }
-    return
-}
-function sendMessages(){
-    setInterval(function()
-    {
-        var nextNumber = removeNumber(allNumbers);
-        nexmo.message.sendSms('12012413493', nextNumber, 'You have received a text message from glycemic');
-    }, 3000);
-}
-
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -155,14 +190,8 @@ db.once('open', function() {
 })
 
 
-
-//Test Glucose Level Data to run through for alerts
-// var glucoseArray = [];
-
 app.listen(process.env.PORT || port, function() {
     console.log("app is running");
     console.log("env port" + process.env.PORT);
-    // Contact.findOne({name: "Corey"}, function(err, contact){
-    //     nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
-    // })
+    iterateGlucoseLevels();
 })
