@@ -85,6 +85,11 @@ app.get('/contact', function(req, res){
                 });
             }
         }else{
+            Contact.findOne({name: "Corey"}, function(err, contact){
+                if (contact != null){
+                    nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+                }
+            })
             res.send({status:"no more to save"});
         }
     })
