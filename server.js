@@ -148,6 +148,11 @@ db.once('open', function() {
 app.listen(process.env.PORT || port, function() {
     console.log("app is running");
     console.log("env port" + process.env.PORT);
-    sendMessages();
+    Contact.find({}, function(err, contacts){
+        for (var i=0; i < contacts.length; i++){
+            console.log(contacts[i]);
+        }
+    })
+    // sendMessages();
     // nexmo.message.sendSms('12012413493', '16462670978', 'You have received a text message from glycemic');
 })
