@@ -83,7 +83,8 @@ app.get('/contact', function(req, res){
 
 //Post contact info from iOS and save it to db
 app.post('/contact', function(req, res){
-    console.log("req:" + req);
+    console.log("req.body:" + req.body);
+    console.log("req.body[0]:" + req.body[0]);
     var name = "Corey";
     var number = "16462670978";
     console.log("name: " + name);
