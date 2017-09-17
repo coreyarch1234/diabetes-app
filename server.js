@@ -96,32 +96,9 @@ function iterateGlucoseLevels(){
 
 //return all the glucose data
 app.post('/glucose', function(req, res){
-    // Glucose.find({}, function(err, glucoses){
-    //     if (err){
-    //         console.log(err);
-    //     }else{
-    //         res.send(glucoses);
-    //     }
-    // })
     var pageSize = 1;
     var pageNumber = req.body.pageNumber;
-    console.log(req.body);
-    Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
-      if (err) throw error;
-      res.send(docs[0])
-    })
-})
-app.get('/glucose', function(req, res){
-    // Glucose.find({}, function(err, glucoses){
-    //     if (err){
-    //         console.log(err);
-    //     }else{
-    //         res.send(glucoses);
-    //     }
-    // })
-    var pageSize = 1;
-    var pageNumber = 2;
-    console.log(req.body);
+    console.log("pageNumber: " + req.body.pageNumber);
     Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
       if (err) throw error;
       res.send(docs[0])
@@ -138,9 +115,12 @@ var glucosePatient = {
 // })
 
 //Text message
-// function composeText(textData){
-//
-// }
+function composeText(textData){
+    var glucosePatient = {
+        name: "Eric"
+    }
+
+}
 
 
 //Get contact info from iOS and save it to db
