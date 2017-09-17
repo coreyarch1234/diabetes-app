@@ -70,17 +70,22 @@ app.get('/contact', function(req, res){
             number: "16462670978"
         }
     ]
-    for (var i=0; i < contactArray.length; i++){
-        // allNumbers.push(contactArray[i].number);
-        Contact.create(contactArray[i], function(err, contact){
-            if (err){
-                console.log(err);
-            }else{
-                console.log("contact saved successfully");
-                res.send(contact);
+    Contact.count({}, function(err, count){
+        console.log("count: " + count);
+        if (count == 0){
+            for (var i=0; i < contactArray.length; i++){
+                // allNumbers.push(contactArray[i].number);
+                Contact.create(contactArray[i], function(err, contact){
+                    if (err){
+                        console.log(err);
+                    }else{
+                        console.log("contact saved successfully");
+                        res.send(contact);
+                    }
+                });
             }
-        });
-    }
+        }
+    })
 });
 //Post contact info from iOS and save it to db
 // app.post('/contact', function(req, res){
@@ -148,7 +153,7 @@ db.once('open', function() {
 app.listen(process.env.PORT || port, function() {
     console.log("app is running");
     console.log("env port" + process.env.PORT);
-    // Contact.findOne({name: "Corey"}, function(err, contact){
-    //     nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
-    // })
+    Contact.findOne({name: "Corey"}, function(err, contact){
+        nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+    })
 })
