@@ -98,6 +98,7 @@ function iterateGlucoseLevels(){
 app.post('/glucose', function(req, res){
     var pageSize = 1;
     var pageNumber = req.body.pageNumber;
+    console.log("hit the post request");
     console.log("pageNumber: " + req.body.pageNumber);
     Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
       if (err) throw error;
@@ -105,9 +106,6 @@ app.post('/glucose', function(req, res){
     })
 })
 
-var glucosePatient = {
-    name: "Eric"
-}
 //return all the glucose data
 // app.post('/location', function(req, res){
 //     var longitude = req.longitude;
