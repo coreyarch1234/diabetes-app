@@ -50,35 +50,35 @@ app.use(express.static('public'));
 
 //Get contact info from iOS and save it to db
 app.get('/contact', function(req, res){
-    // db.collections['contacts'].drop(function(err){
-    //     if (err){
-    //         console.log(err);
-    //     }
-    //     console.log('collection dropped');
-    // });
-    // var contactArray = [
-    //     {
-    //         name: "Corey",
-    //         number: "16462670978"
-    //     },
-    //     {
-    //         name: "Nabil",
-    //         number: "16462670978"
-    //     },
-    //     {
-    //         name: "Kadeem",
-    //         number: "16462670978"
-    //     }
-    // ]
-    // Contact.create(contactArray, function(err, contacts){
-    //     if (err){
-    //         console.log(err);
-    //     }else{
-    //         console.log("contacts saved successfully");
-    //         console.log(contacts)
-    //         res.send(contacts);
-    //     }
-    // });
+    db.collections['contacts'].drop(function(err){
+        if (err){
+            console.log(err);
+        }
+        console.log('collection dropped');
+    });
+    var contactArray = [
+        {
+            name: "Corey",
+            number: "16462670978"
+        },
+        {
+            name: "Nabil",
+            number: "16462670978"
+        },
+        {
+            name: "Kadeem",
+            number: "16462670978"
+        }
+    ]
+    Contact.create(contactArray, function(err, contacts){
+        if (err){
+            console.log(err);
+        }else{
+            console.log("contacts saved successfully");
+            console.log(contacts)
+            res.send(contacts);
+        }
+    });
 });
 
 //Post contact info from iOS and save it to db
@@ -113,13 +113,10 @@ app.post('/contact', function(req, res){
                 res.send(contact);
             }
         });
-        if (i == contactArray.length - 1){
-            sendMessages();
-        }
     }
 });
 
-
+sendMessages();
 //Send texts to contacts
 function removeNumber(allNumbers){
     if (allNumbers.length > 0 ) {
