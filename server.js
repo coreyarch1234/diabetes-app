@@ -85,7 +85,7 @@ app.get('/contact', function(req, res){
                 });
             }
         }else{
-            res.send(status:"no more to save");
+            res.send({status:"no more to save"});
         }
     })
 });
