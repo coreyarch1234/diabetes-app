@@ -95,39 +95,36 @@ app.get('/contact', function(req, res){
     })
 });
 //Post contact info from iOS and save it to db
-// app.post('/contact', function(req, res){
-//     db.collections['contacts'].drop(function(err){
-//         if (err){
-//             console.log(err);
-//         }
-//         console.log('collection dropped');
-//     });
-//     console.log("req.body:" + req.body);
-//     console.log("req.body[0]:" + req.body[0]);
-//     console.log("req.body[0]:" + req.body[0]);
-//     console.log("req.body[0].name:" + req.body[0].name);
-//     console.log("req.body[0].number:" + req.body[0].name);
-//     console.log("req.body[1]:" + req.body[1]);
-//     console.log("req.body[1]:" + req.body[1]);
-//     console.log("req.body[1].name:" + req.body[1].name);
-//     console.log("req.body[1].number:" + req.body[1].name);
-//     var contactArray = req.body;
-//     for (var i=0; i < contactArray.length; i++){
-//         var contactInfo = {
-//             name: req.body[i].name,
-//             number: req.body[i].number
-//         }
-//         allNumbers.push(req.body[i].number);
-//         Contact.create(contactInfo, function(err, contact){
-//             if (err){
-//                 console.log(err);
-//             }else{
-//                 console.log("contact saved successfully");
-//                 res.send(contact);
-//             }
-//         });
-//     }
-// });
+app.post('/contact', function(req, res){
+    console.log("req.body:" + req.body);
+    console.log("req.body[0]:" + req.body[0]);
+    console.log("req.body[0]:" + req.body[0]);
+    console.log("req.body[0].name:" + req.body[0].name);
+    console.log("req.body[0].number:" + req.body[0].name);
+    console.log("req.body[1]:" + req.body[1]);
+    console.log("req.body[1]:" + req.body[1]);
+    console.log("req.body[1].name:" + req.body[1].name);
+    console.log("req.body[1].number:" + req.body[1].name);
+    var contactArray = req.body;
+    Contact.cound({name:"Corey"}, function(err, count){
+        if (count == 0){
+            for (var i=0; i < contactArray.length; i++){
+                var contactInfo = {
+                    name: req.body[i].name,
+                    number: req.body[i].number
+                }
+                Contact.create(contactInfo, function(err, contact){
+                    if (err){
+                        console.log(err);
+                    }else{
+                        console.log("contact saved successfully");
+                        res.send(contact);
+                    }
+                });
+            }
+        }
+    })
+});
 
 //Send texts to contacts
 function removeNumber(allNumbers){
