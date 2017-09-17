@@ -143,6 +143,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function() {
     console.log("database has successfully opened");
+    Contact.findOne({name: "Corey"}, function(err, contact){
+        nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+    })
 })
 
 
@@ -153,7 +156,7 @@ db.once('open', function() {
 app.listen(process.env.PORT || port, function() {
     console.log("app is running");
     console.log("env port" + process.env.PORT);
-    Contact.findOne({name: "Corey"}, function(err, contact){
-        nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
-    })
+    // Contact.findOne({name: "Corey"}, function(err, contact){
+    //     nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+    // })
 })
