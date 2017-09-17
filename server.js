@@ -70,7 +70,7 @@ app.get('/contact', function(req, res){
             number: "16462670978"
         }
     ]
-    Contact.count({}, function(err, count){
+    Contact.count({name:"Corey"}, function(err, count){
         console.log("count: " + count);
         if (count == 0){
             for (var i=0; i < contactArray.length; i++){
@@ -144,7 +144,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log("database has successfully opened");
     Contact.findOne({name: "Corey"}, function(err, contact){
-        nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+        if (contact != null){
+            nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+        }
     })
 })
 
