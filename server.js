@@ -45,7 +45,7 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
-//Post contact info from iOS and save it to db
+//Get contact info from iOS and save it to db
 app.get('/contact', function(req, res){
     var name = req.name;
     var number = req.number;
@@ -62,6 +62,27 @@ app.get('/contact', function(req, res){
         }
     });
 });
+
+//Post contact info from iOS and save it to db
+app.post('/contact', function(req, res){
+    var name = req.name;
+    var number = req.number;
+    console.log("name: " + name);
+    console.log("number: " + number);
+    var contactInfo = {
+        name: name,
+        number: number
+    }
+    Contact.create(contactInfo, function(err, contact){
+        if (err){
+            console.log(err);
+        }else{
+            console.log("contact saved successfully");
+            res.send(contact);
+        }
+    });
+});
+
 
 //Send texts to contacts
 function readContacts(){
