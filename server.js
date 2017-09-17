@@ -108,6 +108,7 @@ function iterateGlucoseLevels(){
 app.get('/glucose', function(req, res){
     var pageSize = 1;
     var pageNumber = req.body.pageNumber;
+    console.log("req body: " + req.body);
     console.log("hit the post request");
     console.log("pageNumber: " + req.body.pageNumber);
     Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
