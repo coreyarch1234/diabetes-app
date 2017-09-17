@@ -94,29 +94,40 @@ function iterateGlucoseLevels(){
     }
 }
 
-app.get('/glucose', function(req, res){
-    Glucose.find({}, function(err, glucoses){
-        if (err){
-            console.log(err);
-        }else{
-            res.send(glucoses);
-        }
+//return all the glucose data
+app.post('/glucose', function(req, res){
+    // Glucose.find({}, function(err, glucoses){
+    //     if (err){
+    //         console.log(err);
+    //     }else{
+    //         res.send(glucoses);
+    //     }
+    // })
+    var pageSize = 1;
+    var pageNumber = req.body.pageNumber;
+    Glucose.find({}).sort({"_id": 1}).skip(pageSize * (pageNumber - 1)).limit(pageSize).exec(function(err, docs){
+      if (err) throw error;
+      res.send(docs)
     })
 })
+
+//return all the glucose data
+// app.post('/location', function(req, res){
+//     var longitude = req.longitude;
+//     var latitude = req.latitude;
+// })
+
+//Text message
+// function composeText(textData){
+//
+// }
+
 
 //Get contact info from iOS and save it to db
 app.get('/contact', function(req, res){
     var contactArray = [
         {
             name: "Corey",
-            number: "16462670978"
-        },
-        {
-            name: "Nabil",
-            number: "16462670978"
-        },
-        {
-            name: "Kadeem",
             number: "16462670978"
         }
     ]
@@ -156,7 +167,7 @@ app.post('/contact', function(req, res){
     console.log("req.body[1].name:" + req.body[1].name);
     console.log("req.body[1].number:" + req.body[1].name);
     var contactArray = req.body;
-    Contact.cound({name:"Corey"}, function(err, count){
+    Contact.count({name:"Corey"}, function(err, count){
         if (count == 0){
             for (var i=0; i < contactArray.length; i++){
                 var contactInfo = {
@@ -182,11 +193,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function() {
     console.log("database has successfully opened");
-    Contact.findOne({name: "Corey"}, function(err, contact){
-        if (contact != null){
-            nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
-        }
-    })
+    // Contact.findOne({name: "Corey"}, function(err, contact){
+    //     if (contact != null){
+    //         nexmo.message.sendSms('12012413493', contact.number, 'You have received a text message from glycemic');
+    //     }
+    // })
 })
 
 
